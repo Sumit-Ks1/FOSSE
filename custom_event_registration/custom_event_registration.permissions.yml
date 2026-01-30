@@ -1,0 +1,13 @@
+administer event configuration:
+  title: 'Administer Event Configuration'
+  description: 'Allow users to configure event settings and create new events.'
+  restrict access: true
+
+view event registrations:
+  title: 'View Event Registrations'
+  description: 'Allow users to view and export event registration data.'
+  restrict access: true
+
+access event registration:
+  title: 'Access Event Registration'
+  description: 'Allow users to access and submit the event registration form.'
