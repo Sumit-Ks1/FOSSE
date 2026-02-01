@@ -1,0 +1,74 @@
+# Admin: Event Configuration Form
+custom_event_registration.event_config:
+  path: '/admin/config/event-registration/event-config'
+  defaults:
+    _form: '\Drupal\custom_event_registration\Form\EventConfigForm'
+    _title: 'Event Configuration'
+  requirements:
+    _permission: 'administer event configuration'
+
+# Admin: Module Settings Form
+custom_event_registration.admin_config:
+  path: '/admin/config/event-registration/settings'
+  defaults:
+    _form: '\Drupal\custom_event_registration\Form\AdminConfigForm'
+    _title: 'Event Registration Settings'
+  requirements:
+    _permission: 'administer event configuration'
+
+# Admin: Registration Listing Page
+custom_event_registration.admin_listing:
+  path: '/admin/event-registration/registrations'
+  defaults:
+    _controller: '\Drupal\custom_event_registration\Controller\AdminListingController::listing'
+    _title: 'Event Registrations'
+  requirements:
+    _permission: 'view event registrations'
+
+# Admin: CSV Export
+custom_event_registration.csv_export:
+  path: '/admin/event-registration/export-csv'
+  defaults:
+    _controller: '\Drupal\custom_event_registration\Controller\AdminListingController::exportCsv'
+    _title: 'Export Registrations'
+  requirements:
+    _permission: 'view event registrations'
+
+# User: Event Registration Form
+custom_event_registration.registration_form:
+  path: '/event-registration'
+  defaults:
+    _form: '\Drupal\custom_event_registration\Form\EventRegistrationForm'
+    _title: 'Event Registration'
+  requirements:
+    _permission: 'access event registration'
+
+# AJAX: Get events by category
+custom_event_registration.ajax_events_by_category:
+  path: '/ajax/events-by-category/{category}'
+  defaults:
+    _controller: '\Drupal\custom_event_registration\Controller\AdminListingController::getEventsByCategory'
+  requirements:
+    _permission: 'access event registration'
+  options:
+    no_cache: TRUE
+
+# AJAX: Get events by date
+custom_event_registration.ajax_events_by_date:
+  path: '/ajax/events-by-date/{date}'
+  defaults:
+    _controller: '\Drupal\custom_event_registration\Controller\AdminListingController::getEventsByDate'
+  requirements:
+    _permission: 'view event registrations'
+  options:
+    no_cache: TRUE
+
+# AJAX: Get registration data
+custom_event_registration.ajax_registration_data:
+  path: '/ajax/registration-data/{event_id}'
+  defaults:
+    _controller: '\Drupal\custom_event_registration\Controller\AdminListingController::getRegistrationData'
+  requirements:
+    _permission: 'view event registrations'
+  options:
+    no_cache: TRUE

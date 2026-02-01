@@ -1,0 +1,28 @@
+services:
+  # Repositories
+  custom_event_registration.event_repository:
+    class: Drupal\custom_event_registration\Repository\EventRepository
+    arguments: ['@database']
+
+  custom_event_registration.registration_repository:
+    class: Drupal\custom_event_registration\Repository\RegistrationRepository
+    arguments: ['@database']
+
+  # Services
+  custom_event_registration.event_service:
+    class: Drupal\custom_event_registration\Service\EventService
+    arguments: ['@custom_event_registration.event_repository']
+
+  custom_event_registration.registration_service:
+    class: Drupal\custom_event_registration\Service\RegistrationService
+    arguments:
+      - '@custom_event_registration.registration_repository'
+      - '@custom_event_registration.event_repository'
+      - '@custom_event_registration.mail_service'
+
+  custom_event_registration.mail_service:
+    class: Drupal\custom_event_registration\Service\MailService
+    arguments:
+      - '@plugin.manager.mail'
+      - '@config.factory'
+      - '@language_manager'
