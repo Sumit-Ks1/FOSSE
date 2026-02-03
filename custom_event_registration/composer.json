@@ -1,0 +1,50 @@
+{
+    "name": "drupal/custom_event_registration",
+    "description": "A custom Drupal 10 module for event registration with admin configuration, email notifications, and CSV export.",
+    "type": "drupal-module",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://github.com/fossee/custom_event_registration",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "FOSSEE Team",
+            "email": "fossee@example.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/fossee/custom_event_registration/issues",
+        "source": "https://github.com/fossee/custom_event_registration"
+    },
+    "require": {
+        "php": ">=8.1",
+        "drupal/core": "^10"
+    },
+    "require-dev": {
+        "drupal/core-dev": "^10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Drupal\\custom_event_registration\\": "src/"
+        }
+    },
+    "extra": {
+        "drupal": {
+            "version": "1.0.0",
+            "datestamp": "1738137600"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "8.1"
+        }
+    },
+    "keywords": [
+        "drupal",
+        "module",
+        "event",
+        "registration",
+        "custom"
+    ]
+}
