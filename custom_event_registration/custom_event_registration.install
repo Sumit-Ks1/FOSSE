@@ -94,6 +94,7 @@ function custom_event_registration_schema() {
       ],
       'event_id' => [
         'type' => 'int',
+        'unsigned' => TRUE,
         'not null' => TRUE,
         'description' => 'Foreign key to event_config.id.',
       ],

@@ -148,7 +148,7 @@ class AdminListingController extends ControllerBase {
           $registration->event_name,
           $registration->event_date,
           $registration->category,
-          date('Y-m-d H:i:s', $registration->created),
+          date('Y-m-d H:i:s', (int) $registration->created),
         ]);
       }
 

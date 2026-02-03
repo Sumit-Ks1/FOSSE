@@ -194,9 +194,18 @@ class EventConfigForm extends FormBase {
     }
 
     // Validate event name is not empty after trimming.
-    $event_name = trim($form_state->getValue('event_name'));
+    $event_name = trim($form_state->getValue('event_name') ?? '');
     if (empty($event_name)) {
       $form_state->setErrorByName('event_name', $this->t('Event name cannot be empty.'));
+    }
+    elseif (mb_strlen($event_name) > 255) {
+      $form_state->setErrorByName('event_name', $this->t('Event name must be less than 255 characters.'));
+    }
+
+    // Validate category is selected.
+    $category = $form_state->getValue('category');
+    if (empty($category)) {
+      $form_state->setErrorByName('category', $this->t('Please select a category.'));
     }
   }
 
@@ -205,7 +214,7 @@ class EventConfigForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $data = [
-      'event_name' => trim($form_state->getValue('event_name')),
+      'event_name' => mb_substr(trim($form_state->getValue('event_name') ?? ''), 0, 255),
       'category' => $form_state->getValue('category'),
       'registration_start' => $form_state->getValue('registration_start'),
       'registration_end' => $form_state->getValue('registration_end'),

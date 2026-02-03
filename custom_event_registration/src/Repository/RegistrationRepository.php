@@ -41,7 +41,7 @@ class RegistrationRepository {
     return $this->database->insert('event_registration')
       ->fields([
         'full_name' => $data['full_name'],
-        'email' => $data['email'],
+        'email' => strtolower($data['email']),
         'college_name' => $data['college_name'],
         'department' => $data['department'],
         'event_id' => $data['event_id'],
@@ -185,9 +185,10 @@ class RegistrationRepository {
     }
 
     // Check for duplicate based on email + event_date combination.
+    // Use case-insensitive email comparison.
     $query = $this->database->select('event_registration', 'er');
     $query->join('event_config', 'ec', 'er.event_id = ec.id');
-    $query->condition('er.email', $email);
+    $query->condition('er.email', strtolower($email));
     $query->condition('ec.event_date', $event_date);
     $count = $query->countQuery()->execute()->fetchField();
 

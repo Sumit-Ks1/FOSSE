@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\custom_event_registration\Form;
 
 use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -198,12 +197,12 @@ class RegistrationFilterForm extends FormBase {
     $rows = [];
     foreach ($registrations as $registration) {
       $rows[] = [
-        'name' => $registration->full_name,
-        'email' => $registration->email,
+        'name' => ['data' => ['#markup' => htmlspecialchars($registration->full_name, ENT_QUOTES, 'UTF-8')]],
+        'email' => ['data' => ['#markup' => htmlspecialchars($registration->email, ENT_QUOTES, 'UTF-8')]],
         'event_date' => $registration->event_date,
-        'college_name' => $registration->college_name,
-        'department' => $registration->department,
-        'submission_date' => date('Y-m-d H:i:s', $registration->created),
+        'college_name' => ['data' => ['#markup' => htmlspecialchars($registration->college_name, ENT_QUOTES, 'UTF-8')]],
+        'department' => ['data' => ['#markup' => htmlspecialchars($registration->department, ENT_QUOTES, 'UTF-8')]],
+        'submission_date' => date('Y-m-d H:i:s', (int) $registration->created),
       ];
     }
 

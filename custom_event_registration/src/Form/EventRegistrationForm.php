@@ -283,26 +283,50 @@ class EventRegistrationForm extends FormBase {
     }
 
     // Validate full name.
-    $full_name = trim($form_state->getValue('full_name'));
-    if (!$this->registrationService->validateFullName($full_name)) {
+    $full_name = trim($form_state->getValue('full_name') ?? '');
+    if (empty($full_name)) {
+      $form_state->setErrorByName('full_name', $this->t('Full name is required.'));
+    }
+    elseif (mb_strlen($full_name) > 255) {
+      $form_state->setErrorByName('full_name', $this->t('Full name must be less than 255 characters.'));
+    }
+    elseif (!$this->registrationService->validateFullName($full_name)) {
       $form_state->setErrorByName('full_name', $this->t('Full name can only contain letters, spaces, hyphens, apostrophes, and periods.'));
     }
 
     // Validate email.
-    $email = trim($form_state->getValue('email'));
-    if (!$this->registrationService->validateEmail($email)) {
+    $email = trim($form_state->getValue('email') ?? '');
+    if (empty($email)) {
+      $form_state->setErrorByName('email', $this->t('Email address is required.'));
+    }
+    elseif (mb_strlen($email) > 255) {
+      $form_state->setErrorByName('email', $this->t('Email must be less than 255 characters.'));
+    }
+    elseif (!$this->registrationService->validateEmail($email)) {
       $form_state->setErrorByName('email', $this->t('Please enter a valid email address.'));
     }
 
     // Validate college name.
-    $college_name = trim($form_state->getValue('college_name'));
-    if (!$this->registrationService->validateCollegeName($college_name)) {
+    $college_name = trim($form_state->getValue('college_name') ?? '');
+    if (empty($college_name)) {
+      $form_state->setErrorByName('college_name', $this->t('College name is required.'));
+    }
+    elseif (mb_strlen($college_name) > 255) {
+      $form_state->setErrorByName('college_name', $this->t('College name must be less than 255 characters.'));
+    }
+    elseif (!$this->registrationService->validateCollegeName($college_name)) {
       $form_state->setErrorByName('college_name', $this->t('College name can only contain letters, numbers, spaces, and basic punctuation.'));
     }
 
     // Validate department.
-    $department = trim($form_state->getValue('department'));
-    if (!$this->registrationService->validateDepartment($department)) {
+    $department = trim($form_state->getValue('department') ?? '');
+    if (empty($department)) {
+      $form_state->setErrorByName('department', $this->t('Department is required.'));
+    }
+    elseif (mb_strlen($department) > 255) {
+      $form_state->setErrorByName('department', $this->t('Department must be less than 255 characters.'));
+    }
+    elseif (!$this->registrationService->validateDepartment($department)) {
       $form_state->setErrorByName('department', $this->t('Department can only contain letters, numbers, spaces, and basic punctuation.'));
     }
 
@@ -310,6 +334,13 @@ class EventRegistrationForm extends FormBase {
     $event_id = $form_state->getValue('event_id');
     if (empty($event_id)) {
       $form_state->setErrorByName('event_id', $this->t('Please select an event.'));
+      return;
+    }
+
+    // Verify event exists and is still active.
+    $event = $this->eventService->getEvent((int) $event_id);
+    if (!$event) {
+      $form_state->setErrorByName('event_id', $this->t('The selected event is no longer available.'));
       return;
     }
 
@@ -324,10 +355,10 @@ class EventRegistrationForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $data = [
-      'full_name' => trim($form_state->getValue('full_name')),
-      'email' => trim($form_state->getValue('email')),
-      'college_name' => trim($form_state->getValue('college_name')),
-      'department' => trim($form_state->getValue('department')),
+      'full_name' => mb_substr(trim($form_state->getValue('full_name') ?? ''), 0, 255),
+      'email' => mb_substr(trim($form_state->getValue('email') ?? ''), 0, 255),
+      'college_name' => mb_substr(trim($form_state->getValue('college_name') ?? ''), 0, 255),
+      'department' => mb_substr(trim($form_state->getValue('department') ?? ''), 0, 255),
       'event_id' => (int) $form_state->getValue('event_id'),
     ];
 
